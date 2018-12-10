@@ -1,0 +1,29 @@
+<html lang="ja">
+  <header>
+    <meta charset="utf-8">
+    <title>pages.calc.mie.jpの作成ルール</title>
+  </header>
+  <body>
+    <h2>作成</h2>
+    <pre class="shell"><code> $ cd /srv/pages-calc-web
+ $ make new</code></pre>
+    <p>を実行してください．すると</p>
+    <pre class="shell"><code>Please input your directory
+    </code></pre>
+    <p>と聞かれるので，作成したいディレクトリの名前を入力してください。</p>
+    <p>ディレクトリの作成，ホームディレクトリにシンボリックリンクの作成，index.htmlの作成，<a href="../">元ページ</a>の変更を行います．</p>
+    <h2>削除</h2>
+    <pre cless="shell"><code> $ cd /srv/pages-calc-web
+ $ make rm</code></pre>
+    <p>を実行してください。すると</p>
+    <pre class="shell"><code>Please input to remove directory
+    </code></pre>
+    <p>と聞かれるので，削除したいディレクトリの名前を入力してください。</p>
+    <pre class="shell"><code> $ rm -rf (削除したいディレクトリ名)</code></pre>
+    <p>とした場合，</p>
+    <pre class="shell"><code> $ make restart</code></pre>
+    <p>を起動した後にホームディレクトリのシンボリックリンクを削除してください(任意)</p>
+    <h2>ルール</h2>
+    <p>今の所無いです</p>
+  </body>
+</html>

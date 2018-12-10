@@ -1,0 +1,59 @@
+#!/bin/bash
+
+DIR="/srv/pages-calc-web"
+A1=$1
+
+function makeindex(){
+    cat ${DIR}/.indextmp.txt > ${DIR}/index.html
+    for i in $(dir -1d */ | sed -e '/admin/d' | sed 's/\///g' ) ; do
+	echo "<li>" >> ${DIR}/index.html
+	echo "<a href=\"${i}/index.html\">${i}</a>" >> ${DIR}/index.html
+	echo "</li>" >> ${DIR}/index.html
+    done
+    echo "</html>">>${DIR}/index.html
+}
+
+function createindex(){
+    if [ ! -e "${DIR}"/"${A1}" ] ; then
+	echo "Please input your directry"
+	read pagesdir
+	echo "mkdir -p ${pagesdir}"
+	mkdir -p ${pagesdir}
+	ln -s ${DIR}/${pagesdir} ${HOME}/pages-${pagesdir}
+	touch ${DIR}"/"${pagesdir}/index.html
+	echo "<a href=\"/\">Back to home</a>" >> ${DIR}"/"${pagesdir}/index.html
+    fi
+}
+
+function remove(){
+    if [ ! -e "${DIR}"/"${A2}" ] ; then
+	echo "Don\`t exist."
+	exit 1
+    fi
+    echo "Please input to remove directory"
+    read rmdir
+    rm -rf ${DIR}/${rmdir}
+    rm -rf ${HOME}/pages-${rmdir}
+}
+
+#main
+
+if [ -z "${A1}" ] ; then
+    echo "You have to input argument."
+    exit 1
+fi
+
+if [ "${A1}" == "clean" ] ; then
+    rm index.html
+    exit 0
+fi
+
+if [ "${A1}" == "new" ] ; then
+    createindex
+fi
+
+if [ "${A1}" == "rm" ] ; then
+    remove
+fi
+
+makeindex

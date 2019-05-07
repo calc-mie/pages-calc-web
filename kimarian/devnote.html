@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <title>kimarian's page</title>
+  </head>
+  <body>
+    <h2>開発ノート</h2>
+    プロジェクトを整理するための情報を乗っけとくページ。
+    <h1>使用ライブラリ</h1>
+    <h3>Mirror</h3>
+    <p>概要 : TCPで動く安定したUNETみたいなやつ。APIがほぼUNETだからUNETのドキュメントがMirrorのドキュメント</p>
+    <p>使い所さん : ネットワークの管理のほぼすべて。</p>
+    <h3>UniRx</h3>
+    <p>概要 : イベント処理周りをかきやすくしてくれる。</p>
+    <p>使い所さん : オブジェクトが死んだ時に起爆したい処理をするみたいなやつを書く時に使う。ガッチガチにこのプログラミングスタイルで開発する頭がないので、利用できそうなところだけする。</p>
+    <h1>主なクラス</h1>
+    <h2>Entity周り</h2>
+    <h3>Entity</h3>
+    <p>概要 : ワールドにいるオブジェクトとかにつける。</p>
+    <p>publicメンバ</p>
+    <ul>
+        <li>Id : string - オブジェクトの名前。(正直Idという命名がやばいのでそのうちIdとNameとかで分けるつもり)</li>
+        <li>InteractManager : InteractManager - オブジェクトに登録されたコマンド(右クリックするとでるやつ)の取得/実行を制御するオブジェクト</li>
+        <li>CanInteract : bool - コマンドを実行できるオブジェクトかどうかを示す</li>
+        <li>SetId(string id) : void - Idを変更する時にこのメソッドを呼ぶ </li>
+    </ul>
+    <p>protectedメンバについて : Startがprotected virtualになってるので、初期化処理を書き換えたい時はoverrideして</p>
+    <p>Serialized Field</p>
+    <ul>
+        <li>defaultId - 変更せずとも設定されるId</li>
+        <li>textOffset - オブジェクトの上に出るIdのテキストの位置</li>
+        <li>textColor - 同上の色</li>
+    </ul>
+    <h3>Character : Entity</h3>
+    <p>概要 : プレイヤーや敵モブなどのステータス持ちEntityに継承される。</p>
+    <p>publicメンバ</p>
+    <ul>
+      <li>Status : Status - ステータスを管理するオブジェクト</li>
+    </ul>
+    <h3>PlayerSystem : Character</h3>
+    <p>概要 : Playerのゲームオブジェクトにアタッチする。</p>
+    <h3>Collectable : Entity</h3>
+    <p>概要 : 拾えるゲームオブジェクトにアタッチする。</p>
+    <h3>SimpleNPC : Character</h3>
+    <p>概要 : 喋れるゲームオブジェクトにアタッチする。</p>
+  </body>  
+</html>

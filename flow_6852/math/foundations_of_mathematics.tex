@@ -1,0 +1,674 @@
+\documentclass[14pt]{jsarticle}
+\usepackage[top=10truemm,bottom=15truemm,left=10truemm,right=10truemm]{geometry}
+\usepackage{graphicx}
+\usepackage[all]{xy}
+\usepackage{amsthm,mathtools,amssymb}
+
+\theoremstyle{definition}
+\newtheorem{dfn}{Def.}[subsection]
+\newtheorem{thm}[dfn]{Thm.}
+\newtheorem{lem}[dfn]{Lem.}
+\newtheorem{cor}[dfn]{Cor.}
+\newtheorem{noti}[dfn]{Notificate.}
+\newtheorem{doril}[dfn]{演習問題}
+
+\newcommand*{\subtitle}[1]{\hspace{-10pt}{\emph{\large{#1}}}\par\vspace{-0.5pt}}
+\newcommand*{\newrestriction}{\hspace{-2pt}\upharpoonright\hspace{-2pt}}
+
+\begin{document}
+\hrule
+	\begin{flushleft}
+		\bfseries
+			{\LARGE 数学基礎論} \hfill Vol.1 \\ \medskip
+			flow\_6852 \hfill {\today}
+	\end{flushleft}
+\hrule
+\begin{section}{集合論}
+\begin{subsection}{公理}
+\begin{description}
+	\item{公理0} 集合の存在\\
+	$\exists x ( x = x)$
+	\item{公理1} 外延性\\
+	$\forall z( z \in x \leftrightarrow z \in y) \to x = y$
+	\item{公理2} 基礎 \\
+	$\exists y(y \in x) \to \exists y ( y \in x \land \lnot \exists z(z \in x \land z \in y))$
+	\item{公理3} 内包公理図式 \\
+	$\exists y \forall x ( x \in y \leftrightarrow x \in z \land \varphi (x))$
+	\item{公理4} 対 \\
+	$\exists z ( x \in z \land y \in z)$
+	\item{公理5} 和集合\\
+	$\exists A \forall Y \forall x ( x \in Y \land Y \in {\mathcal F} \to x \in A)$
+	\item{公理6} 置換公理図式\\
+	$\forall x \in A \exists ! y \varphi(x,y) \to \exists B \forall x \in A \exists y \in B \varphi(x,y)$
+	\item{公理7} 無限\\
+	$\exists x (\emptyset \in x \land \forall y \in x(S(y) \in x))$
+	\item{公理8} 冪集合\\
+	$\exists y \forall z(z \subseteq x \to z \in y)$
+	\item{公理9} 選択\\
+	$\emptyset \not \in F \land \forall x \in F \forall y \in F (x \not = y \to x \cap y = \phi) \to \exists C \forall x \in F(SING(C\cap x))$
+\end{description}
+\clearpage
+ただし、上の公理7,8,9について、以下の概念を定義したものとする.
+\begin{itemize}
+	\item 部分集合
+	$x \subseteq y \Leftrightarrow \forall z( z \in x \to z \in y)$
+	\item 空集合 
+	$ x = \emptyset \Leftrightarrow \forall z ( z \not \in x)$
+	\item 後者関数 
+	$ y = S(x) \Leftrightarrow \forall z ( z \in y \leftrightarrow z \in x \lor z = x)$
+	\item 共通部分 
+	$ \omega = x \cap y \Leftrightarrow \forall z ( z \in \omega \Leftrightarrow z \in x \land z \in y)$
+	\item 単集合
+	$SING(x) \Leftrightarrow \exists y \in x \forall z \in x (z = y)$
+\end{itemize}
+これらの公理の組み合わせとして以下のものが代表的である
+\begin{itemize}
+	\item $ZFC = $公理1~公理9
+	\item $ZF = $公理1~公理8
+	\item $ZC = ZFC-$公理6, $Z = ZF - $公理6
+	\item $Z^{-}$, $ZF^-$, $ZC^-$,$ZFC^-$はそれぞれ$-$のついていない公理系から公理2を引いたものである.
+\end{itemize}
+\end{subsection}
+
+\clearpage
+\begin{subsection}{外延性,内包公理図式,対,和集合}
+\subtitle{外延性の公理:$\forall z(z \in x \leftrightarrow z \in y) \to x=y$}
+外延性の公理は集合ある集合の一意性を保証する公理である.この公理の逆方向は等号の公理からたやすく導かれる.(これを公理に加える人もいる.)例として空集合の一意性を示す.
+
+\begin{dfn}
+\label{empdef}
+emp($x$)とは$\forall z ( z \not \in x)$のこと.
+\end{dfn}
+
+\begin{thm}
+\label{empid}
+emp($x$) $\land$ emp($y$) $\to x = y$
+\end{thm}
+\begin{proof}
+外延性の公理を同値変形することで$\forall z(z \not \in x \land z \not \in y) \to x = y$が言える.Def.\ref{empdef}より,上の論理式を導く.
+\end{proof}
+定理\ref{empid}ではemp(x)の一意性のみを示しているだけであり,存在は示していない.\\ \par
+
+\subtitle{内包公理図式:$\exists y\forall x(x \in y \leftrightarrow x \in z \land \varphi(x))$}
+内包公理図式は集合の存在を保証する公理のリストである.例を上げる前に素朴内包公理(素朴集合論)の集合の定義を記す.
+
+\begin{dfn}
+\label{NCAdef}
+素朴内包公理$NCA$とは集合の任意の性質$Q(x)$について集合$S=\{x|Q(x)\}$が存在するという主張である.
+\end{dfn}
+この定義は曖昧であり,矛盾している.
+
+\begin{proof}
+$NCA$を用いて$R=\{x|x\not \in x\}$とする.\\
+$R \in R$のとき$x\not \in x$より$R \not \in R$,逆に$R\not \in R$のとき$x \not \in x$より$R\in R$\\
+よって$R \in R \Leftrightarrow R \not \in R$となり矛盾.
+\end{proof}
+内包公理図式により,$Q(x)$を$\varphi (x)$に読み替えたものが一つの公理となる.このときにできる集合は$\{x\in z| x \not \in x\}$である.
+この時に$R\in z$とすると定理\ref{NCAdef}の矛盾が導けることが言えるだけで,$R\not\in z$が言えてここに矛盾はない.
+
+\begin{dfn}
+\label{AllSet}
+万有集合は存在しない:$\forall z \exists R ( R \not\in z)$
+\end{dfn}
+\begin{proof}
+上記
+\end{proof}
+外延性の公理のときに空集合の一意性を示した.ここで内包公理図式を用いて存在を保証する.
+
+\begin{dfn}
+\label{empset}
+emp($y$)つまり$\forall x(x \not\in y)$をみたすただ一つの集合$y$を$\phi$とする.
+\end{dfn}
+\begin{proof}
+一意性は定理\ref{empid}で示したとおりであるからここでは$y$が存在することを示す.公理0より何かしら集合が存在している.\par
+内包公理図式の$\varphi(x)$として常に偽となる論理式を適用する.ここでは$x \not = x$とする.
+すると$\exists y \forall x(x\in y \leftrightarrow 偽)$という論理式を導くことができて,これは$\forall x(x \not\in y)$となるyが存在することを示している.
+定義\ref{empdef}より$\forall x(x \not\in y) \Leftrightarrow$emp($y$)だから$y$は一意に存在する.
+\end{proof}
+数学では特別な対象に名前をつけることがあるが,このように一意に存在することを示さなければならない.\par
+
+ここで内包記法を用いるために記法を導入する.
+\begin{noti}
+\label{setexist}
+任意の論理式$\varphi(x)$について$\{x|\varphi(x)\}$をクラスと呼ぶ.$\forall x(x\in A \leftrightarrow \varphi (x))$を満たす$A$がそれそれ
+\begin{itemize}
+	\item  ある時,$A$は唯一つに決まる.この時$A$は存在するという.
+	\item  ない時,$A$は存在しない,もしくは真クラスを成すという.
+\end{itemize}
+$\{x\in z|\varphi(x)\}$は$\{x|x\in z \land \varphi(x)\}$の略記である.\par
+また,内包公理は$\{x\in z|\varphi(x)\}$という記法で書かれた集合は必ず存在することを保証している.
+\end{noti}
+例えば$\emptyset=\{x|x\not = x\}$は存在して,$V=\{x|x\in x\}$は存在しない.\\\par
+
+公理系の提示で定義した共通部分,差集合の定義もここでformalに行える.
+\begin{dfn}
+\label{capdef}
+集合$z$,$u$について
+\begin{enumerate}
+	\item $z \cap u = \{x\in z| x\in u\}$
+	\item $z \setminus u = \{x \in z | x \not \in u\}$
+	\item $x \subseteq y \Leftrightarrow \forall z( z \in x \to z \in y)$
+\end{enumerate}
+\end{dfn}
+\begin{proof}
+それぞれ$\varphi(x)$を$x\in u$,$x\not \in u$として内包公理図式に適用すれば良い.
+\end{proof}
+
+\subtitle{対の公理:$\exists z(x \in z \land y \in z)$}
+空でない集合の存在を保証する.例えば内包公理図式の$\varphi(x)$を$(x=\omega \lor x=\gamma)$とすると集合$u=\{x\in z| x = \omega \lor x = \gamma\}$が存在して,外延性の公理より一意であることがわかる.
+
+\begin{dfn}二点集合,一点集合,順序対をそれぞれ次のように定義する.
+\label{tuppledef}
+\begin{enumerate}
+	\item $\{x,y\}=\{\omega|\omega = x \lor \omega = y\}$
+	\item $\{x\}=\{x,x\}$
+	\item $(x,y)=\{\{x\},\{x,y\}\}$
+\end{enumerate}
+\end{dfn}
+\begin{proof}
+1については上記.
+2については$\varphi(x)$を$(\omega = x \lor \omega =y)\land x=y$とすれば良い.
+3については1の集合を$z$として$\varphi(x)$を$\omega = x \lor \omega = z$とすれば良い. 
+\end{proof}
+
+\begin{doril}
+\label{tuppleprop}
+$(x,y)=(x',y')\to x=x' \land y=y'$
+\end{doril}
+\begin{proof}
+次の補題を用いる.
+\begin{lem}
+\label{doubleseteq}
+$\{a,b\}=\{c,d\}\Leftrightarrow (a=c\land b=d)\lor(a=d\land b=c)$
+\end{lem}
+\begin{proof}
+前件について外延性の公理より$\{a,b\}=\{c,d\} \Leftrightarrow \forall x(x\in\{a,b\} \leftrightarrow x\in\{c,d\})$.
+対の公理より$\forall x(x=a \lor x=b \leftrightarrow x=c \lor x=b)$.
+よってこの命題は$\forall x(x=a \lor x=b \leftrightarrow x=c \lor x=b)\Leftrightarrow (a=c\land b=d)\lor(a=d\land b=c)$と同値である.\\
+($\Leftarrow$)$a=c\land b=d$と$a=d \land b=c$についてそれぞれ$\forall x(x=a \lor x=b)$と$\forall x (x=c \lor x=d)$を仮定し,それぞれで場合分けをすれば良い.\\
+($\Rightarrow$)この命題の対偶を証明する.
+対偶は$(a\not =c \lor b\not =d) \land (a\not =d \lor b \not =c)\Rightarrow \lnot \forall x(x=a\lor x=b \leftrightarrow x=c \lor x=d)$で,それぞれ同値変形をすると,
+\begin{itemize}
+	\item $(a\not =c \land a\not =d)\lor (a\not =c \land b\not =c ) \lor (b\not =d \land a\not =d) \lor (b \not = d \land b \not = c)$
+	\item $\exists x(x=a \land x\not =c \land x \not =d) \lor (x =b \land x\not =c \land x \not =d) \lor\\
+(x=c \land x\not =a \land x\not =b)\lor(x=d \land x\not =a \land x\not =b)$
+\end{itemize}
+である.前件を仮定して,以下のように場合分けするとそれぞれ結果が得られる.
+\begin{itemize}
+	\item $a\not =c \land a\not =d$を仮定すると$x=a$の時$x=a \land x\not =c \land x\not =d$
+	\item $a\not =c \land b\not =c$を仮定すると$x=c$の時$x=c\land x\not =a \land x\not =b$
+	\item $b\not =d \land a\not =d$を仮定すると$x=d$の時$x=d\land x\not =a \land x\not =b$
+	\item $b\not =d \land b\not =c$を仮定すると$x=b$の時$x=b\land x\not =c \land x\not =d$
+\end{itemize}
+がそれぞれ導かれるのでこの命題は真.よって元の命題も真となる.
+\end{proof}
+$(x,y)=(x',y')$を仮定する.定義\ref{tuppledef}.3.より$\{\{x\},\{x,y\}\}=(x,y)=(x',y')=\{\{x'\},\{x',y'\}\}$.
+補題\ref{doubleseteq}より$(\{x\}=\{x'\}\land \{x,y\} =\{x',y'\})\lor(\{x\}=\{x',y'\}\land\{x,y\}=\{x'\})$.\\
+(i)$\{x\}=\{x'\} \land \{x,y\}=\{x',y'\}$を仮定する.補題\ref{doubleseteq}より$x=x'$と$y=y'$を導けるので$x=x'\land y=y'$\\
+(ii)$\{x\}=\{x',y'\} \land \{x,y\}=\{x'\}$を仮定する.定義\ref{tuppledef}.2.より$\{x\}=\{x,x\}$だから$x=x'\land x=y'$を導ける.同様に$\{x'\}=\{x',x'\}$より$x'=x \land x'=y$を導ける.
+よって$x=x'=y=y'$だから$x=x' \land y=y'$.\\
+(i),(ii)共に$x=x'\land y=y'$だから$(x,y)=(x',y') \to x=x'\land y=y'$
+\end{proof}
+
+\subtitle{和集合の公理:$ \forall {\mathcal F}\exists A \forall Y \forall x ( x \in Y \land Y \in {\mathcal F} \to x \in A)$}
+無限個の集合の和集合も許すような公理.(この説明微妙)
+\begin{dfn}
+\label{bigcupdef}
+	$$\bigcup {\mathcal F} = \bigcup_{Y \in {\mathcal F}} = \{x|\exists Y \in {\mathcal F}(x \in Y)\}$$
+\end{dfn}
+和集合の公理に出てきた$A$を取って$B=\{x\in A|\exists Y \in {\mathcal F}(x \in Y)\}$を取れば正当性は保証される.
+
+\begin{dfn}和集合,三点集合,四点集合をそれぞれ次のように定義する.
+\label{cupdefs}
+\begin{enumerate}
+	\item $u\cup v = \bigcup \{u,v\}({\mathcal F}として\{u,v\}をとる)$
+	\item $\{x,y,z\}=\{x,y\}\cup \{z\}$
+	\item $\{w,x,y,z\}=\{w,x\}\cup \{y,z\}$
+\end{enumerate}
+\end{dfn}
+
+\begin{doril}次の2つの論理式を示せ.
+\begin{enumerate}
+	\item $\{x,y,z\}=\{x,z,y\}$
+	\item $u\cap(v\cup w) = (u\cap v)\cup(u\cap w)$
+\end{enumerate}
+\end{doril}
+\begin{proof}
+一つづつ示していく.\par
+1.外延性の公理より$\forall \omega(\omega \in\{x,y,z\} \leftrightarrow \omega \in\{x,z,y\})$.
+前件を仮定すると定義\ref{cupdefs}.2.より$\forall \omega \in \{x,y\}\cup \{z\}$.
+定義\ref{cupdefs}.1より$\forall \omega \in \bigcup \{\{x,y\},\{z\}\}$.
+定義\ref{bigcupdef}より$\forall \omega ( \exists Y \in \{\{x,y\},\{z\}\}(\omega \in Y))$.
+対の公理より$\forall \omega(\omega \in \{x,y\} \lor \omega \in \{z\})$.
+定義\ref{tuppledef}.1.より$\forall \omega( \omega \in \{x,y\} \lor \omega \in \{z,z\})$.
+対の公理より$\forall \omega (\omega =x \lor \omega =y \lor \omega=z)$.
+同値変形をして$\forall \omega(\omega =x \lor \omega =z \lor \omega =y)$,定義\ref{tuppledef}より$\forall \omega(\omega \in\{x,z\}\lor \omega \in \{y\})$
+定義\ref{bigcupdef}より$\{x,z,y\}$.逆方向の含意も同様にして導く.\qed\par
+2.外延性の公理より,$\forall x(x\in u\cap (v\cup w) \leftrightarrow x\in(u\cap v)\cup(u \cap w))$.\\
+($\to$)定義\ref{capdef}.1.より$x\in u \land x\in (u\cup w)$.
+定義\ref{cupdefs}.1.より$x\in u \land x\in \bigcup\{u,w\}$.
+定義\ref{bigcupdef}より$x\in u \land \exists Y \in \{u,w\}(x \in Y)$.
+$Y$の取りうる値は$u$または$w$だから$x\in u \land(x \in v \lor x \in w)$.
+同値変形をすると$(x\in u \lor x\in v)\land(x\in u \lor x\in w)$.
+$x\in u \lor x\in v$について和集合の公理と内包公理より$x\in u\cup v$.$x\in u \lor x\in w$についても同様に$x\in u\cup v$.
+定義\ref{capdef}.1.より$x \in ((u\cup v)\cap(u\cup w))$.\\
+($\leftarrow$)定義\ref{capdef}.1.より$x\in (u \cup v) \land x\in (u\cup w)$.
+定義\ref{cupdefs}.1.より$x\in \bigcup\{u,v\} \land x\in \bigcup \{u,w\}$.
+定義\ref{bigcupdef}より$\exists Y \in \{u,v\}(x\in Y) \land \exists Z \in \{u,w\}(x\in Z)$.
+$Y$の取りうる値は$u$または$v$であり,$Z$の取りうる値は$u$または$w$だから$(x\in u \lor x\in v)\land (x\in u \lor x\in w)$.
+同値変形をして$x\in u\lor(x\in v \land x\in w)$.
+内包公理より$x\in u\lor(x\in v \cap w)$.
+和集合の公理と内包公理より$x\in u\cup(v\cap w)$.
+\end{proof}
+ここで無限個の集合についての共通部分も定義する.
+\begin{dfn}
+\label{bigcapdef}
+$$\bigcap{\mathcal F} = \bigcap_{Y \in {\mathcal F}} Y = \{x|\forall Y \in {\mathcal F} ( x \in Y)\}$$
+\end{dfn}
+${\mathcal F}$の要素を一つ決めて(ここでは$E$とする)$\{x\in E|\forall Y \in {\mathcal F} (x \in Y)\}$を構成すれば内包公理によって保証できる.\\
+ここで$\bigcap \emptyset$が万有クラスとなることに注意(内包公理から$\forall x \in y \varphi(x)$は$\forall x(x \in y \to \varphi(x)$で,前件が偽であるから$x$によらずこの論理式が真となるため).
+\begin{dfn}
+\label{sucdef}
+$0=\emptyset$,後者関数を$S(x)=x\cup\{x\}$と定めて
+\begin{itemize}
+	\item $1=S(0)=\{\emptyset\}$
+	\item $2=S(1)=\{\emptyset,\{\emptyset\}\}=\{0,1\}$
+	\item $3=S(2)=\{0,1,2\}$
+	\item $4=S(3)=\{0,1,2,3\}$
+\end{itemize}
+等と定める.
+\end{dfn}
+定義を繰り返せば自然数を定義できるが,これだけでは自然数集合全体を定義することはできない.後々に提示する無限の公理によってそれが実現される.
+\end{subsection}
+
+\clearpage
+\begin{subsection}{関係,函数,離散数学}
+\begin{dfn}
+\label{relationdef}
+集合$R$が関係であるとは$R$が順序対の集合であること.つまり$\forall u \in R \exists x,y (u=(x,y))$が成立することである.
+\end{dfn}
+内包公理を意識して$R=\{u\in A|\exists x,y(u=(x,y))\}$と構成しても良い.
+また,$(x,y) \in R$のことを$xRy$,$(x,y) \not \in R$のことを$x\not \hspace{-3.0pt}R y$と書くこともある.
+\begin{dfn}
+\label{relationprop}
+関係の性質をそれぞれ以下の様に定義する.
+\begin{description}
+	\item{1.推移的} \hspace{9.0pt}$\forall x,y,z ((x,y) \in R \land (y,z) \in R \to (x,z) \in R)$
+	\item{2.反射的} \hspace{9.0pt}$\forall x ((x,x) \in R)$
+	\item{3.非反射的} $\forall x((x,x)\not \in R)$
+	\item{4.対称的} \hspace{9.0pt}$\forall x,y ((x,y)\in R \leftrightarrow (y,x)\in R)$
+	\item{5.三分律} \hspace{9.0pt}$\forall x,y( (x,y) \in R \lor (y,x) \in R \lor x=y)$
+\end{description}
+これらを用いて.
+\begin{description}
+	\item{6.} 関係$R$が集合$A$上で定義\ref{relationprop}の1,3を満たす時,狭義に半順序付けするという.
+	\item{7.} 関係$R$が集合$A$上で定義\ref{relationprop}の1,3,5を満たす時,狭義に全順序付けするという.
+	\item{8.} 関係$R$が集合$A$上で定義\ref{relationprop}の1,2,4を満たす時,同値関係であるという.
+\end{description}
+\end{dfn}
+	\cite{Kunen}では$x \leq y$を$x < y \lor x=y$の略記としているが,他の文献では$x \leq y$を定義する場合もある.
+\begin{dfn}
+\label{domrandef}
+	集合$R$についての始集合(domain)と終集合(codomain,range)をそれぞれ以下のように定める.
+\begin{enumerate}
+	\item $dom(R)=\{x|\exists y((x,y)\in R)\}$
+	\item $ran(R)=\{y|\exists x((x,y)\in R)\}$
+\end{enumerate}
+\end{dfn}
+\begin{proof}
+$(x,y)=\{\{x\},\{x,y\}\}\in R$の時,$\{x\}\in \bigcup R \land \{x,y\} \in \bigcup R$であって,
+ここから$x \in \bigcup \bigcup R \land y \in \bigcup \bigcup R$が言える.よって内包公理と記法\ref{setexist}より
+$dom(R)=\{x \in \bigcup \bigcup R|\exists y((x,y)\in R\}$,$ran(R)=\{y \in \bigcup \bigcup R | \exists x((x,y) \in R)\}$が存在することが保証できる. 
+\end{proof}
+\begin{dfn}
+\label{relationrestriction}
+	定義域の制限を下のように定義する.\par
+	$R\newrestriction A = \{(x,y)|x\in A\}$
+\end{dfn}
+\begin{dfn}
+\label{funcdef}
+$R$が函数であるとは,$R$が次の論理式を満たすような関係のことである.\par
+$\forall x(x \in dom(R) \to \exists !y((x,y) \in R))$\\
+また、この時のただ一つの$y$を$R(x)$と書く.
+\end{dfn}
+\begin{dfn}
+\label{funcprop}
+函数の全射,単射,全単射をそれぞれ以下の様に定める.
+\begin{enumerate}
+	\item  $F:A \to B$とは,$dom(F)=A$であって$ran(F) \subseteq B$であること.
+	\item  $F:A \xrightarrow{onto} B$ とは,$F:A \to B$であって$ran(F)=B$であること($F$は全射である.).
+	\item  $F:A \xrightarrow[1-1]{} B$ とは,$F:A \to B$であって$\forall x,x'\in A(F(x)=F(x') \to x=x')$であること($F$は単射である).
+	\item  $F:A \xrightarrow[1-1]{onto} B$ とは,$F:A \xrightarrow{onto} B$であって$F:A \xrightarrow[1-1]{} B$であること($F$は全単射である).
+\end{enumerate}
+\end{dfn}
+\begin{dfn}
+\label{funcrestriction}
+函数の制限を以下のように定義する.\par
+$F(A)=F''A=ran(F\newrestriction A)$
+\end{dfn}
+$F$の始集合を$A$に制限して得られた終集合の部分集合を$F''A$で表現している.\\\par
+\subtitle{置換公理:$\forall x\in A \exists ! y \varphi(x,y) \to \exists B \forall x \in A \exists y \in B \varphi (x,y)$}
+定義\ref{relationdef}の関係について,今までの公理だけでは存在を保証することができる関係は数少ない.
+例えば直積(カルテジアン積)を用いて定義されるような関係はまだ保証されない.
+一つづつ順序対を作って始集合と終集合を定義する方法で定義すれば保証される(?)\par
+\begin{dfn}
+\label{cartesindef}
+直積(デカルト積,カルテジアン積)を次の様に定義する.\par
+$S \times T = \{(s,t)|s \in S\land t \in T\}$
+\end{dfn}
+\begin{proof}
+上の定義を書き換えると$\{x|\exists s \in S\exists t \in T(x=(s,t))\}$となる.
+このときの記法は前述の通り今までの公理だけでは存在の保証ができない.
+ここでは置換公理を二回用いて存在を示す.\par
+$s\in S$をまず１つ固定しておいて置換公理を$\forall t \in T\exists ! y (y=(s,t))\to \exists B \forall t \in T\exists y \in B (y=(s,t))$とする.
+すなわち$A$を$T$,$\varphi(x,y)$を$y=(s,t)$とする.
+更に内包公理について$\exists C \forall y(y\in C\to y\in B \land \exists t \leftrightarrow T(y=(s,t))$とすると,$C=\{y\in B|\exists t \in T(y=(s,t))\}$を作ることができる.\par
+次に$D=\{\{s\}\times T|s \in S\}$を同様にして作る.
+置換公理を$\forall s \in S \exists ! y (\{s\}\times T \to \exists E\forall s \in S \exists y \in E(y=(\{s\}\times T))$,
+内包公理を$\exists G \forall y(y \in G \leftrightarrow y \in F \land \exists s \in S(y=(\{s\}\times T))$とすると$G=\{y \in F| \exists s \in S(y=\{s\}\times T)\}=D$とできる.\par
+最後に$\displaystyle \bigcup D=\bigcup_{s\in S}\{s\} \times T$をとって(注:$\displaystyle (\bigcup_{s \in S} \{s\}) \times T$ではない!)$S\times T$を作ることができる.
+\end{proof}
+これを用いて函数$f$を定義することができる.
+\begin{lem}
+\label{funclemma}
+$\forall x \in A \exists ! y \varphi(x,y)$を仮定する.
+このとき$dom(f)=A$であって,各$x\in A$について$\varphi(x,y)$となるただ一つの$y$を$f(x)$とするような函数$f$が存在する.
+\end{lem}
+\begin{proof}
+置換公理$\forall x\in A\exists ! y\varphi(x,y) \to \exists B \forall x\in A \exists y \in B \varphi(x,y)$における$B$を一つ固定して
+$f=\{(x,y)\in A\times B|\varphi(x,y)\}$を作ればよい.
+\end{proof}
+次に関係の逆と合成を定義する.
+\begin{dfn}
+\label{reversedef}
+関係の逆を以下の様に定義する.\par
+$R^{-1}=\{(y,x)|(x,y)\in R\}$
+\end{dfn}
+\begin{proof}
+$R^{-1} \subseteq ran(R)\times dom(R)$として作ればよい.
+\end{proof}
+\begin{lem}
+\label{homomorphizm}
+$f$が$f:A \xrightarrow[1-1]{onto} B$の時,$f^{-1}$が函数になって$f^{-1}:B \xrightarrow[1-1]{onto} A$となる.
+\end{lem}
+\begin{proof}
+$f$が$A\xrightarrow[1-1]{onto}B$であると仮定する.この時,定義\ref{domrandef},\ref{funcdef},\ref{funcprop}より$f$について次のことが言える.
+ただし定義1.については$\forall x (x\in dom(f) \to \exists !y((x,y)\in f))$を同値変形したものである.
+\begin{enumerate}
+	\item $\forall x (x\in dom(f) \to \exists y ((x,y)\in f \land \forall z((x,z) \in f \to z=y)))$
+	\item $dom(f)=\{x|\exists y((x,y)\in f\}=A$
+	\item $ran(f)=\{y|\exists x(x,y)\in f\}=B$
+	\item $\forall x,x'\in A(f(x)=f(x') \to x=x')$
+\end{enumerate}
+定義\ref{reversedef}より,$f^{-1}=\{(y,x)\in ran(f)\times dom(f)|(x,y)\in f\}$.
+これが$B$から$A$への全単射になる,つまり$f^{-1}$が上の4つの論理式を満たすことを示せば良い.\par
+$f^{-1}$についての論理式の2.,3.についてはそれぞれ$f$について成り立つ論理式3.,2.より$dom(f^{-1})=ran(f)=B$,$ran(f^{-1})=dom(f)=A$.
+よって$f^{-1}$が写像であればそれは全射になる.\par
+$dom(f^{-1})(=B)$の要素を一つ固定する.この時3.より$\exists x ((x,y)\in f)$.
+また,$(y,x)\in B\times A$だから内包公理より$(y,x)\in f^{-1}$,よって$\exists x((y,x)\in f^{-1})$.
+ある$A$の要素について$(y,z)\in f^{-1}$であると仮定すると,$(x,y)\in f \land (z,y) \in f$.
+$f$について成り立つ論理式4.より$x=z$.
+以上より$\forall y(y\in dom(f^{-1}) \to \exists x((y,x)\in f^{-1} \land \forall z((y,z)\in f^{-1} \to z=x)))$.
+$f^{-1}$についての写像の定義を満たしているので$f^{-1}$は写像$f^{-1}:A\xrightarrow{onto}B$.後は単射かどうかを調べれば良い.\par
+$B$の要素$y,y'$を固定して$f^{-1}(y)=f^{-1}(y')$を仮定する.この時,$f^{-1}(y)\in A$かつ$f^{-1}(y') \in A$であって,内包公理より$(f^{-1}(y),y)\in f$かつ$(f^{-1}(y'),y')\in f$.
+$f$について成り立つ論理式1.より,$y=y'$だから$\forall y\in B(f^{-1}(y)=f^{-1}(y')\to y=y')$.\par
+よって,$f^{-1}:A\xrightarrow[1-1]{onto}B$
+\end{proof}
+\begin{dfn}
+\label{funccomp}
+函数の合成を以下の様に定義する.\par
+$G \circ F = \{(x,z)\in dom(F) \times ran(G)|\exists y((x,y)\in F \land (y,z) \in G)\}$
+\end{dfn}
+次に辞書式積,同型写像,同値類をそれぞれ定義する.
+\begin{dfn}
+\label{dictcardef}
+$S$,$T$上にそれぞれ$<$,$\prec$の関係がある時,$S\times T$上の辞書式積は以下の論理式によって定まる関係$\triangleleft$である.\par
+$(s,t) \triangleleft (s',t') \leftrightarrow (s<s' \lor(s=s'\to t<t'))$
+\end{dfn}
+\begin{thm}
+\label{dictstrict}
+$<$と$\prec$が$S$と$T$をそれぞれ狭義に全順序づけするとき,$S\times T$の辞書式積はそれを全順序づけする.
+\end{thm}
+\begin{proof}
+$S$,$T$上で$<$,$\prec$がそれぞれ狭義に全順序づけされている時,$S$上の関係$<$は定義\ref{relationprop}より次の性質を満たす.
+\begin{enumerate}
+	\item $\forall x,y,z(x<y \land y<z \to x<z)$
+	\item $\forall x(x \not < x)$
+	\item $\forall x,y(x<y \lor y<x \lor x=y)$
+\end{enumerate}
+$T$上の関係$\triangleleft$もこれらの性質を満たしている.
+$x,y$を$S \times T$から取る.この時この要素は$x=(s,t),y=(s',t')$である.
+$<$は三分律を満たすので(i)$s<s'$,(ii)$s=s'$,(iii)$s>s'$の場合分けを考える.\\
+(i)$s<s'$の時
+定義より$(s,t) \triangleleft(s',t')$,三分律(上の性質の３つ目)を満たす.
+$s'<s''$とすると,同様に$(s',t') \triangleleft (s'',t'')$が成立,$S$上で$s<s''$が成立するので$(s,t) \triangleleft (s'',t'')$も成立.よって推移律(上の性質の１つ目)を満たす.\\
+(ii)$s=s'$の時
+$T$上の順序について$S$と同様に場合分けする\par
+(a)$t\prec t'$の時,(i)の時と同様にして三分律と推移律が成立することが確認できる.\par
+(b)$t=t'$の時,定義\ref{dictcardef}より$\lnot (s,t) \triangleleft (s',t')$だから推移律と三分律を満たす.(ここで$(s,t)=(s',t')$としても定義\ref{dictcardef}より非反射率(上の性質の２つ目)が成立することがわかる.)\par
+(c)$t\succ t'$の時,定義\ref{dictcardef}より$\lnot (s,t) \triangleleft (s',t')$.上の性質をすべて満たす.\\
+(iii)$s>s'$の時,定義\ref{dictcardef}より$\lnot (s,t) \triangleleft (s',t')$,上の性質をすべて満たす.\par
+(i),(ii),(iii)より,$\triangleleft$は$S \times T$を狭義に全順序づけする.
+\end{proof}
+\begin{dfn}
+\label{congdef}
+$F$が$(A;<)$から$(B;\triangleleft)$の上への同型写像であるとは,$F$が全単射であって,($F:A\xrightarrow[1-1]{onto}B$),次の論理式が成立することを言う.\par
+$\forall x,y\in A(x<y \leftrightarrow F(x) \triangleleft F(y))$\\
+また、$(A;<)$から$(B;\triangleleft)$への同型写像が存在する時,$(A;<)$は$(B;\triangleleft)$と同型であると言って、$(A;<)\cong(B;\triangleleft)$と書く.
+\end{dfn}
+\begin{dfn}
+\label{equivalentdef}
+$R$を集合$A$上の同値関係とする.$A$の要素$x$について$[x]=\{y\in A|(x,y)\in R\}$とおく,これを$x$の同値類と呼ぶ.更に$A/R=\{[x]|x\in A\}$とする.
+\end{dfn}
+\begin{doril}
+\label{tuppleexist}
+何かしらの対が定理\ref{tuppleprop}の論理式が証明された時,すべての集合$R$について$\{x|\exists y((x,y)\in R\}$が存在することを保証せよ.
+\end{doril}
+\begin{proof}
+$[(x,y)]=\{(x',y')\in R|x=x'\}$とする.内包公理よりこの集合は存在している.これを置換公理に適用すれば良い.
+この時の論理式は$\forall (x',y') \in [(x,y)] \exists !x(x=x') \to \exists dom(R) \forall (x',y') \in [(x,y)] \exists x \in dom(R)(x=x')$である.
+\end{proof}
+\begin{doril}
+\label{congequ}
+$\cong$は同値関係である.
+\end{doril}
+\begin{proof}
+定義\ref{relationprop}.8.より反射律,対称律,推移律を満たせば良い.\\
+(i)反射律について,集合とその上の関係を一つ$(A;<)$に固定して写像$f:A\to A$を$a\in A$について$f(a)=a$とする.
+この時,$f$は全単射で始集合と終集合のそれぞれの上にある関係は同じものである.
+$a<a'$を仮定すると$f(a)=a$,$f(a')=a'$より$f(a)<f(a')$を満たし,同様に$f(a')<f(a')$を仮定すると$a<a'$を満たす.\\
+(ii)対称律について,二つの集合とそれぞれの上の関係$(A;<)$,$(B;\triangleleft)$を固定して,$(A;<)$から$(B;\triangleleft)$への同型写像$f$が存在すると仮定する.
+$(B;\triangleleft)$から$(A;<)$への同型写像が存在すれば良い.
+ここで,補題\ref{homomorphizm}より,$f^{-1}:B\xrightarrow[1-1]{onto}A$である.\par
+$B$の要素$b,b'$を固定する.この時,定義\ref{reversedef}と$f^{-1}$の写像性より$f^{-1}(b)=a$,$f^{-1}(b')=a'$とするとそれぞれ$(a,b)\in f$,$(a',b')\in f$が言える.
+$f$について$(a<a' \leftrightarrow b\triangleleft b')$が成立しているから
+$b\triangleleft b'$と仮定すると$a<a'$つまり$f^{-1}(b)<f^{-1}(b')$.
+逆に$a<a'$つまり$f^{-1}(b)<f^{-1}(b')$を仮定すると$b\triangleleft b'$が成立する.
+よって$f^{-1}$は$\forall b,b'\in B(b\triangleleft b' \leftrightarrow f^{-1}(b)<f^{-1}(b'))$を満たすから,$(B;\triangleleft)\cong (A;<)$.逆方向は同様に示せば良い.\\
+(iii)集合とその上の関係を$(A;<)$,$(B;\triangleleft)$,$(C;\prec)$として$(A;<)\cong(B;\triangleleft)$,$(B;\triangleleft)\cong(C;\prec)$を仮定する.この時の同型写像をそれぞれ$f$,$g$とする.
+$(A;<)\cong(C;\prec)$を示せば良い.ここで,次の補題を証明する.
+\begin{lem}
+\label{homocomp}
+２つの写像が全単射の時,その合成は全単射となる.
+\end{lem}
+\begin{proof}
+集合$A$,$B$,$C$についての写像が$f:A\xrightarrow[1-1]{onto}B$,$g:B\xrightarrow[1-1]{onto}C$であると仮定する.
+定義\ref{funccomp}より,その合成は$g\circ f=\{(a,c)\in A \times B|\exists b((a,b)\in f\to(b,c)\in g)\}$.
+$dom(g\circ f)=A$,$ran(g\circ f)=C$より$g\circ f$が写像であればそれは全射となる.\par
+$A$の要素$a$を固定すると$f$の定義より$(a,b)\in f$なる$b$は唯一つ存在し$g$の定義より,$(b,c)\in g$なる$c$は唯一つ存在するから$\forall a \exists ! c(a,c)\in g\circ f$.よって写像.\par
+$C$の要素$c,c'$について$c=c'$を仮定すると$g$の単射性より$b=b'$,$f$の単射性より$a=a'$が成立.
+よって$g\circ f$は写像だから$c=g\circ f(a)$,$c'=g\circ f(a')$とすると$\forall a,a'(g\circ f(a)=g\circ f(a') \to a=a')$が成立.よって$g\circ f$は単射.\par
+以上より,２つの写像が全単射の時,その合成は全単射となる.
+\end{proof}
+この補題より$g\circ f:(A;<)\xrightarrow[1-1]{onto}(C;\prec)$は全単射.あとは定義\ref{congdef}の論理式を満たせば良い.\\
+$A$の要素$a$,$a'$について$a<a'$を仮定する.
+$f$は同型写像なので$f(a)\triangleleft f(a')$.
+ここで$f(a)\in B\land f(a')\in B$である.
+$g$は同型写像なので$g(f(a))\prec g(f(a'))$.
+よって$g\circ f(a)\prec g\circ f(a')$だから論理式$\forall a,a'(a<a \to g\circ f(a)\prec g\circ f(a'))$が成り立つ.
+逆方向は$g\circ f(a)\prec g\circ f(a')$を仮定して$f$と$g$が同型写像であることを用いて$a<a'$を示せば良い.\par
+(i),(ii),(iii)より,$\cong$は同値関係である.
+\end{proof}
+次に整列順序について定義する.
+\begin{dfn}
+\label{supinfdef}
+$R$を関係とする.$X$の元$y$がそれぞれ
+\begin{enumerate}
+	\item $\lnot \exists z(z \in X \land (z,y)\in R)$を満たす時,$X$において$R$-極小であるという.
+	\item $\lnot \exists z(z \in X \land (y,z)\in R)$を満たす時,$X$において$R$-極大であるという.
+\end{enumerate}
+また,$R$が$A$上で整礎的であるとは,すべての空でない部分集合$X\subseteq A$について,$R$-極小な要素$y\in X$が存在することを言う.
+\end{dfn}
+非反射律が偽であるときは$R$-極小な要素も$R$-極大な要素もそれぞれ存在しない.\\\par
+もう一つ,整礎的であることについての定義を書く.
+\begin{dfn}
+\label{well-ordereddef}
+$R$が$A$を整列順序付けするとは,$R$が$A$を狭義に全順序づけして,$R$が$A$上で整礎的であることをいう.
+\end{dfn}
+\begin{doril}
+\label{subsetwell-ordered}
+$R$が$A$を整列順序付けしているとき,$X\subseteq A$であれば$R$は$X$を整列順序付けする.
+\end{doril}
+\begin{proof}
+$A$は$R$で整列順序付けされているので,
+\begin{enumerate}
+	\item $\forall x,y,z \in A((x,y)\in R \land (y,z) \in R \to (x,z) \in R)$
+	\item $\forall x \in A((x,x) \not \in R)$
+	\item $\forall x,y \in A((x,y) \in R \lor (x,y) \not \in R \lor x=y)$
+	\item $\lnot \exists z(z \in A \land (z,y)\in R)$
+\end{enumerate}
+が成立する.また$R$が$A$上で整礎的であるため,定義\ref{supinfdef}より$X\subseteq A$に$R$-極小な要素が存在する.
+定義\ref{supinfdef}より$X$は整礎的である.
+後は$X$が$R$によって狭義全順序づけされているかを調べれば良い.\par
+$x,y,z$が$X$の要素で$(x,y)\in R \land (y,z)\in R$であると仮定する.$R$は$A$上で狭義全順序で$X\subseteq A$であるから$(x,z)\in R$,よって推移律(上の性質の1)は成立.
+$x$が$X$の要素であると仮定すると$X \subseteq A$であるから$(x,x)\not \in R$が成立しているので非反射律(上の性質の2)が成立.
+同様の理由により三分律(上の性質の3)も成立する.\\
+よって,$R$は$X$を整列順序付けする.
+\end{proof}
+\begin{doril}
+\label{dectcartwell-ordered}
+$<$と$\prec$がそれぞれ$S$と$T$の整列順序であるとき,それらの$S \times T$上の辞書式積は$S\times T$の整列順序である.
+\end{doril}
+\begin{proof}
+狭義全順序づけされていることは演習問題\ref{dictstrict}より成立.よって$\triangleleft$がすべての空でない部分集合において$R$-極小要素を持つことを示せば良い.\par
+ある空でない部分集合が$R$-極小要素を持たないことを仮定して矛盾を導く.そのような部分集合を$X=S'\times T'$とする.
+この時$\forall(s,t)\in X \exists (s',t')\in X ((s',t')\in X \land (s',t')\triangleleft (s,t))$が成立する.
+辞書式積の定義\ref{dictcardef}より$(s',t')\triangleleft(s,t)$は$s'<s \lor(s'=s \land t' \prec t)$を満たすから$s'<s$と$s'=s \land t'\prec t$について調べれば良い.
+ここで$<$も$\prec$もそれぞれ$S$,$T$上で整礎的であるから定義\ref{supinfdef}より$S'$も$T'$も整礎的である.よって$s$が$R$-極小要素のとき,$s'<s$となる$s'$は$S'$の要素でない.
+同様に,$t$が$R$-極小要素のとき$t'\prec t$となる$t'$は$T'$の要素ではない.よってどちらの場合でも$R$-極小要素が存在して矛盾.
+$S\times T$の辞書式積の任意の部分集合には$R$-極小要素が存在するので整礎的である.\par
+以上より$S$と$T$がそれぞれ$<$,$\prec$で整列順序付けされているとき,辞書式積は$S\times T$の整列順序である.
+\end{proof}
+\end{subsection}
+
+\clearpage
+\begin{subsection}{順序数}
+\begin{dfn}
+\label{transitiondef}
+$z$が推移的集合であるとは次の論理式を満たすことである.\par
+$\forall y \in z(y\subseteq z)$\\
+これを同値変形して\par
+$\forall x,y(x\in y \land y \in z \to x\in z)$
+\end{dfn}
+\begin{dfn}
+\label{orderd}
+$z$が順序数であるとは,$z$が推移的集合であって,$\in$によって整列順序付けされていることを言う.
+\end{dfn}
+\begin{noti}
+\label{orderchar}
+ギリシャ文字($\alpha$,$\beta$,$\gamma$,$\delta$,$\zeta$,$\eta$,$\xi$,$\mu$)は,順序数全体を動くものとする.
+つまり$\forall \alpha \varphi(\alpha)$は$\forall x((xが順序数である)\to \varphi(x))$の略記である.
+\end{noti}
+\begin{dfn}
+\label{inandsmaller}
+$\alpha < \beta$は$\alpha \in \beta$を意味して,$\alpha \leq \beta$は$\alpha\in\beta\lor\alpha =\beta$を意味する.
+\end{dfn}
+\begin{dfn}
+\label{ONdef}
+順序数に関して以下の事柄を定義する.
+\begin{itemize}
+	\item $x\in ON$とは,「$x$が順序数である」の略記.
+	\item $x\subseteq ON$とは,「$\forall y \in x(yは順序数である.)$の略記.
+	\item $x\cap ON$とは,「$\{y\in x| yは順序数である\}$」の略記
+\end{itemize}
+\end{dfn}
+\begin{thm}
+\label{ordernumberiswell-order}
+$ON$は$\in$によって整列順序付けされる.つまり以下の事柄を満たす.
+\begin{enumerate}
+	\item $\in$は推移的である:$\forall \alpha,\beta,\gamma(\alpha<\beta\land\alpha<\gamma\to\alpha<\gamma)$
+	\item $\in$は非反射的である:$\forall \alpha\lnot(\alpha < \alpha)$
+	\item $\in$は三分律をみたす:$\forall \alpha,\beta(\alpha < \beta \lor \alpha = \beta \lor \beta < \alpha)$
+	\item $\in$は$ON$上で整礎的である:順序数からなる空でない集合はどれも$\in$最小要素をもつ.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+先に3つの補題を立てる.
+\begin{lem}
+\label{ONtransitive}
+$ON$は推移的クラスである:$\alpha \in ON \land z\in\alpha \to z\in ON$
+\end{lem}
+\begin{proof}
+前件を仮定する.
+$\alpha$は定義\ref{orderchar}より推移的集合(定義\ref{transitiondef})だから$z\subseteq\alpha$.
+$\in$は$\alpha$を整列順序付けするので演習問題\ref{subsetwell-ordered}より,$\alpha$のどの部分集合も整列順序付けする.\par
+あとは$z$が$\in$の上で推移的集合であることを示せば良い.
+つまり\ref{transitiondef}より$\forall x,y(x\in y \land y \in z \to x\in z)$を示せば良い.
+前件を仮定すると$z\subseteq\alpha$だから$z\subseteq\alpha\Leftrightarrow\forall a(a\in z\to a\in\alpha)$より$y\in \alpha$.
+同じ定義から$y\subseteq\alpha$.
+さらに$x\in\alpha$.が言える.
+つまり$x,y,z\in\alpha$である.
+$\alpha$が推移的集合であるから,定義\ref{transitiondef}より$x\in z$.
+以上より$\forall x,y (x\in y \land y\in z \to x\in z$
+\end{proof}
+
+\begin{lem}
+\label{ONcap}
+任意の順序数$\alpha,\beta$について$\alpha\cap\beta$も順序数.
+\end{lem}
+\begin{proof}
+$\alpha\cap\beta\subseteq\alpha$だから,演習問題\ref{subsetwell-ordered}より$\alpha\cap\beta$は$\in$によって整列順序付けされている.
+$x\in y \land y \in \alpha\cap\beta$を仮定する.\ref{capdef}(と内包公理)より$x\in y\land y\in\alpha\land y\in\beta$が成立.
+定義\ref{transitiondef}より$\forall x,y(x\in y \land y \in \alpha \to x\in\alpha$,$\forall x,y(x\in y \land y \in \beta \to x\in\beta$だから
+$x\in\alpha \land x\in\beta$が成立する.よって$x\in\alpha\cap\beta$が言えて,$\forall x,y(x\in y \land y \in\alpha\cap\beta \to x\in\alpha\cap\beta$が成立する.
+\end{proof}
+
+\begin{lem}
+任意の順序数$\alpha,\beta$について$\alpha\subseteq\beta\leftrightarrow\alpha\in\beta\lor\alpha=\beta$となる.
+\end{lem}
+\begin{proof}両方向の含意を示せば良い.\\
+($\to$)$\alpha\subseteq\beta\land \alpha\not=\beta$を仮定する.
+$\alpha\in\beta$となることを示せば良い.
+$X=\beta\setminus\alpha$とおく.
+この時,仮定と定義\ref{capdef}.2.より$X\not=\emptyset$.
+$\beta\setminus\alpha\subseteq\beta$だから演習問題\ref{subsetwell-ordered}より$X$は整列順序付けされている.
+この時の$X$の$\in$最小要素を$\xi$とする.
+$\beta$は順序数だから定義\ref{transitiondef}より$\xi\in\beta$.
+よって$\xi=\alpha$の時$\alpha\in\beta$が言えるから,$\xi=\alpha$を示す.\\
+($\xi\subseteq\alpha$)$\mu\in\xi$を仮定すると$\beta$が推移的集合だから定義\ref{transitiondef}より$\mu\in\beta$.
+$\xi$が$X$で$\in$最小要素だから$\mu\not\in X$.
+$x\in\beta\setminus\alpha\leftrightarrow x\in\beta\land x\not\in\alpha$の対偶$x\not\in\beta\setminus\alpha\leftrightarrow x\not\in\beta\lor x\in\alpha$より$\mu\in\alpha$.
+よって定義\ref{capdef}.3.より$\xi\subseteq\alpha$\\
+($\alpha\subseteq\xi$)$\xi\subset\alpha$を仮定する.
+この時$\mu\in\alpha\setminus\xi$とする.仮定,定義\ref{capdef}.3.,$\alpha\subseteq\beta$より$\mu\in\beta$.
+$\beta$は$\in$によって整列順序付けされているから$\mu\not\in\xi$より$\mu=\xi\lor\xi\in\mu$.
+また$\xi\in X$,$X=\beta\setminus\alpha$より$\xi\not\in\alpha$.
+$\mu=\xi$の時,$\mu\in\alpha\setminus\xi$より$\mu\in\alpha$.
+$\xi\in\alpha$となって矛盾.
+$\xi\in\mu$の時,$\alpha$は順序数なので推移的集合で$\xi\in\mu\land\mu\in\alpha$だから定義\ref{transitiondef}より$\xi\in\alpha$となって矛盾.
+$\alpha\subseteq\xi$を仮定したことによる矛盾だからその否定$\alpha\subseteq\xi$が真.
+$\xi\subseteq\alpha\land\alpha\subseteq\xi$より$\alpha=\xi$.\\
+($\rightarrow$)$\beta$が推移的集合であるから定義\ref{transitiondef}より真.
+\end{proof}
+
+\ref{ONtransitive}は$\gamma$が推移的集合である事,
+つまり$\forall \alpha,\beta,\gamma(\alpha\in\beta\land\beta\in\gamma\to\alpha\in\gamma)$の$\in$を定義\ref{inandsmaller}によって$<$に書き換えれば良い.
+
+\end{proof}
+\end{subsection}
+\end{section}
+
+\begin{thebibliography}{9}
+\bibitem {Kunen} Kenneth Kunen,藤田博司訳『キューネン数学基礎論講義』,日本評論社,2016年
+\end{thebibliography}
+\end{document}
